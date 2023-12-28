@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,14 +19,13 @@ import '../cartPage/cart_icon.dart';
 class GiftOpenPage extends StatefulWidget {
   const GiftOpenPage({Key? key}) : super(key: key);
 
-  static String otp = '';
+  static String emailOtp = '';
 
   @override
   State<GiftOpenPage> createState() => _GiftOpenPageState();
 }
 
 class _GiftOpenPageState extends State<GiftOpenPage> {
-
   int currentIndex = 0;
 
   //controllers for textfield//
@@ -39,24 +37,17 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
 
   List addGiftCart = [];
 
-
 // boolean value
   bool sentOtp = false;
   bool wrongEmail = false;
   bool emailValidate = false;
 
-
   // end here//
 
-
-
-
   var uuid = const Uuid();
-  var createUserId='';
-
+  var createUserId = '';
 
   int currentPageIndex = 0;
-
 
   @override
   void initState() {
@@ -64,7 +55,6 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
     print(HomePage.fullDescription);
     print(HomePage.screenImage);
   }
-
 
 //generate otp random number for email based login//
 
@@ -75,19 +65,15 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
       rndnumber = rndnumber + rnd.nextInt(9).toString();
     }
     setState(() {
-      GiftOpenPage.otp = rndnumber;
+      GiftOpenPage.emailOtp = rndnumber;
     });
     print(rndnumber);
   }
 
   //end here//
 
-
-
-
   // add cart and remove for data in firebase//
   addCart() {
-
     FirebaseFirestore.instance
         .collection('users')
         .doc('e90e2d2d-0947-4cc3-9ea5-377ba4c143be')
@@ -95,7 +81,6 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
   }
 
   // for add//
-
 
   removeCart() async {
     List val = ['def'];
@@ -107,12 +92,11 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
 
   // end here//
 
-
 // store userid for local hive store
 
   userIdStoreLocal() async {
-    addGiftCart=[''];
-    createUserId= uuid.v4();
+    addGiftCart = [''];
+    createUserId = uuid.v4();
     await Hive.openBox("UserDetails");
     var box = Hive.box('UserDetails');
     box.put('user_id', createUserId);
@@ -120,27 +104,24 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
     await FirebaseFirestore.instance.collection('users').doc(createUserId).set({
       'userId': createUserId,
       'userEmail': controllerEmail.text,
-      'cart':''
+      'cart': ''
     });
   }
 
   // end here//
-
 
   // checking purpose to add data in firebase//
   check() async {
-    createUserId= uuid.v4();
-    List giftCart=[];
+    createUserId = uuid.v4();
+    List giftCart = [];
     await FirebaseFirestore.instance.collection('users').doc(createUserId).set({
       'userId': createUserId,
-      'userEmail':' controllerEmail.text',
-      'cart':giftCart
+      'userEmail': ' controllerEmail.text',
+      'cart': giftCart
     });
   }
 
   // end here//
-
-
 
   // image scroable for automatic movable and also manually
 
@@ -149,49 +130,40 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
             child: Container(
               margin: EdgeInsets.all(5.0),
               child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  child: Stack(
-                    children: <Widget>[
-                      Image.network(item, fit: BoxFit.cover, width: 1000.0),
-                      Positioned(
-                        bottom: 0.0,
-                        left: 0.0,
-                        right: 0.0,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Color.fromARGB(200, 0, 0, 0),
-                                Color.fromARGB(0, 0, 0, 0)
-                              ],
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                            ),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                child: Stack(
+                  children: <Widget>[
+                    Image.network(item, fit: BoxFit.cover, width: 1000.0),
+                    Positioned(
+                      bottom: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(200, 0, 0, 0),
+                              Color.fromARGB(0, 0, 0, 0)
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
                           ),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
                         ),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          )
-  )
+          ))
       .toList();
 
   // end here//
 
-
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
-
-
     // automatic otp page for email //
     final defaultPinTheme = PinTheme(
       width: 50,
@@ -218,8 +190,6 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
 
     // end here //
 
-
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -238,15 +208,15 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
         actions: [
           IconButton(
             onPressed: () async {
-             //  String a = 'def';
-             //  setState(() {
-             //    addGiftCart = [a];
-             //  });
-             // addCart();
-            //  removeCart();
-             // await check();
+              //  String a = 'def';
+              //  setState(() {
+              //    addGiftCart = [a];
+              //  });
+              // addCart();
+              //  removeCart();
+              // await check();
 
-               List c=[];
+              List c = [];
               await FirebaseFirestore.instance
                   .collection('users')
                   .doc('fd67227f-7907-4d13-8e6b-ef61115a7a94')
@@ -254,12 +224,12 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
                   .then((DocumentSnapshot documentSnapshot) async {
                 if (documentSnapshot.exists) {
                   final Map<String, dynamic> doc =
-                  documentSnapshot.data() as Map<String, dynamic>;
+                      documentSnapshot.data() as Map<String, dynamic>;
                   print(doc);
                   setState(() {
-                    c=doc['cart'];
+                    c = doc['cart'];
                   });
-                  if(c.isEmpty){
+                  if (c.isEmpty) {
                     print('object');
                   }
 
@@ -270,7 +240,6 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
                   print('netPrice Prices not exist on the database');
                 }
               });
-
             },
             icon: const Icon(
               Icons.shopping_cart,
@@ -360,10 +329,7 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
         ),
       ),
 
-
-
-       // navigation bar button for add cart and remove cart //
-
+      // navigation bar button for add cart and remove cart //
 
       persistentFooterButtons: [
         Row(
@@ -469,7 +435,7 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
                                                 showCursor: true,
                                                 onChanged: (value) async {
                                                   if (value.length >= 6) {
-                                                    if (GiftOpenPage.otp ==
+                                                    if (GiftOpenPage.emailOtp ==
                                                         controllerEmailOTP
                                                             .text) {
                                                       await Fluttertoast.showToast(
@@ -554,7 +520,7 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
                                                   await generateOtp();
                                                   await sendEmail(
                                                       emailOtp:
-                                                          GiftOpenPage.otp,
+                                                          GiftOpenPage.emailOtp,
                                                       email:
                                                           controllerEmail.text);
                                                 },
@@ -595,6 +561,7 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
                 height: MediaQuery.of(context).size.height * 0.06,
                 child: ElevatedButton(
                   onPressed: () {
+                    Get.to(CartPageIcon());
                     print('Add to Cart pressed');
                   },
                   style: ElevatedButton.styleFrom(
@@ -612,10 +579,6 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
       ],
 
       // end here bottom navigation bar //
-
-
-
-
     );
   }
 
@@ -657,7 +620,6 @@ class _GiftOpenPageState extends State<GiftOpenPage> {
     }
   }
 }
-
 
 // reusable code for bottom navigation bar other method//
 

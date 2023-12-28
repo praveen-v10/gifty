@@ -26,18 +26,25 @@ class _MEssagingState extends State<MEssaging> {
         String? title = message.notification!.title;
         String? body = message.notification!.body;
 
-        AwesomeNotifications().createNotification(
+        AwesomeNotifications()
+            .createNotification(
             content: NotificationContent(
+
               id: 123,
-              channelKey: 'Call Channel',
+              channelKey: 'key1',
               color: Colors.white,
               title: title,
               body: body,
-              category: NotificationCategory.Call,
-              wakeUpScreen: true,
-              fullScreenIntent: true,
-              autoDismissible: false,
+              //category:NotificationCategory.Message,
+              // wakeUpScreen: true,
+              // fullScreenIntent: true,
+              // autoDismissible: false,
+
+              actionType: ActionType.Default,
+              // customSound: ,
               backgroundColor: Colors.orange,
+
+
 
             ),
             actionButtons: [
@@ -46,6 +53,8 @@ class _MEssagingState extends State<MEssaging> {
                 label: 'Accept Message',
                 color: Colors.cyan,
                 autoDismissible: true,
+
+
               ),
             ]
         );
@@ -68,16 +77,9 @@ class _MEssagingState extends State<MEssaging> {
       ),
       body: Row(
         children: [
-          InkWell(
-            onTap: () async {
-              sendAndroidNotification();
-              String? token = await FirebaseMessaging.instance.getToken();
-              print(token);
-            },
-            child: Container(
-
-            )
-          )
+         ElevatedButton(onPressed: (){
+           sendAndroidNotification();
+         }, child: Text('Hello'))
         ],
       )
     );
@@ -87,10 +89,10 @@ class _MEssagingState extends State<MEssaging> {
   Future<void> sendAndroidNotification() async {
     try {
       http.Response response = await http.post(
-        Uri.parse('http://fcm.googleapis.com/fcm/send'),
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'key=AAAAV_MGAVc:APA91bGntZ-w9i45A0Vg6Hj_YaPomgrS9LeQxidpdSFvSEwNBCah8kiHtn1-qaM2V2JUF2EwE2wpbNJV_VbXnQ4wHrWkBPIq_axJatQ8i_1Z_dL79Q47ivcqjScSS-M_9dlXifFQQLTZ',
+          'Authorization': 'key = AAAAV_MGAVc:APA91bGntZ-w9i45A0Vg6Hj_YaPomgrS9LeQxidpdSFvSEwNBCah8kiHtn1-qaM2V2JUF2EwE2wpbNJV_VbXnQ4wHrWkBPIq_axJatQ8i_1Z_dL79Q47ivcqjScSS-M_9dlXifFQQLTZ',
         },
         body: jsonEncode(
           <String, dynamic>{
@@ -103,9 +105,16 @@ class _MEssagingState extends State<MEssaging> {
               'click_action': 'FLUTTER_NOTIFICATION_CLICK',
               'id': '1',
               'status': 'done'
+              // ch87wazdQLaeYJPsIuapbL:APA91bHoULORpXLiEFxyURnyZ3mLHqz9SP3mhBDLqPJOwRQE9wOAeTP3sUlEczDYv50fLeHaoRfwj4rdbjN3h9tpibaoe5DNTzAHqL9j0g54oxo1vS1-MT-nCfXphsCKdqQPEs34zAxQ
             },
-            'to': 'emq1i0RRRLSqGPu11QKX4E:APA91bFMPpZ2xEMj07F1-_caOt-QwLjuWfsCDHqMAliRL2ruEYuviGn-gGPsu1ODYR3TAUQtHJZxTjJ6bG_CG5QDeU-MBrEkug1nqNgPUEwdoq_g9Qb0QXNnj18sSJQttCqkIrmn8iHH',
-            //'token': 'ch87wazdQLaeYJPsIuapbL:APA91bHoULORpXLiEFxyURnyZ3mLHqz9SP3mhBDLqPJOwRQE9wOAeTP3sUlEczDYv50fLeHaoRfwj4rdbjN3h9tpibaoe5DNTzAHqL9j0g54oxo1vS1-MT-nCfXphsCKdqQPEs34zAxQ'
+
+
+
+
+
+
+            'to': 'ch87wazdQLaeYJPsIuapbL:APA91bHoULORpXLiEFxyURnyZ3mLHqz9SP3mhBDLqPJOwRQE9wOAeTP3sUlEczDYv50fLeHaoRfwj4rdbjN3h9tpibaoe5DNTzAHqL9j0g54oxo1vS1-MT-nCfXphsCKdqQPEs34zAxQ',
+            'token':'eqqKOd7GTtiU9RvCFmKz8u:APA91bGQsxIx30NVwzkuoGUBcnuyTOx3fKPdfJNwhl89ZDuTA_2d9CxEUxUCaMZShX35W-DNtI6exPNxbG4k4b41rQ-PLbh6d7ZuplczMq1JN9t5dghBLJoO5vOT-Q44MmpLkdDwjthN'
           },
         ),
       );
